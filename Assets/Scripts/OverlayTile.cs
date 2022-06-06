@@ -14,10 +14,12 @@ public class OverlayTile : MonoBehaviour
     public OverlayTile previous;
 
     public Vector3Int gridLocation;
+    public Vector2Int grid2DLocation { get { return new Vector2Int(gridLocation.x, gridLocation.y); } }
 
-    void Update()
+
+    private void Update()
     {
-        if(Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
             HideTile();
         }
