@@ -25,7 +25,7 @@ public class Pathfinder
                 return GetFinishedList(start, end);
             }
 
-            var neighbourTiles = MapManager.Instance.GetNeighbourTiles(currentOverlayTile, null);
+            var neighbourTiles = MapManager.Instance.GetNeighbourTiles(currentOverlayTile, new List<OverlayTile>());
 
             foreach (var neighbour in neighbourTiles)
             {

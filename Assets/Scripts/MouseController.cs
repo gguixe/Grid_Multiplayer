@@ -21,6 +21,10 @@ public class MouseController : MonoBehaviour
     {
         pathFinder = new Pathfinder();
         rangeFinder = new RangeFinder();
+
+        path = new List<OverlayTile>();
+        inRangeTiles = new List<OverlayTile>();
+
     }
 
     // Update is called once per frame
@@ -33,7 +37,26 @@ public class MouseController : MonoBehaviour
             OverlayTile overlayTile = hit.Value.collider.gameObject.GetComponent<OverlayTile>(); //Get tile from mouse position
             transform.position = overlayTile.transform.position; //Set tile to position
             gameObject.GetComponent<SpriteRenderer>().sortingOrder = overlayTile.GetComponent<SpriteRenderer>().sortingOrder; //Set correct sorting order
-            
+
+            if (rangeFinderTiles.Contains(tile) && !isMoving)
+            {
+                path = pathFinder.FindPath(character.standingOnTile, tile, rangeFinderTiles);
+
+                foreach (var item in rangeFinderTiles)
+                {
+                    MapManager.Instance.map[item.grid2DLocation].SetSprite(ArrowDirection.None);
+                }
+
+                for (int i = 0; i < path.Count; i++)
+                {
+                    var previousTile = i > 0 ? path[i - 1] : character.standingOnTile;
+                    var futureTile = i < path.Count - 1 ? path[i + 1] : null;
+
+                    var arrow = arrowTranslator.TranslateDirection(previousTile, path[i], futureTile);
+                    path[i].SetSprite(arrow);
+                }
+            }
+
             if (Input.GetMouseButtonDown(0))
             {
                 overlayTile.GetComponent<OverlayTile>().ShowTile();
@@ -46,7 +69,7 @@ public class MouseController : MonoBehaviour
                 }
                 else
                 {
-                    path = pathFinder.FindPath(character.activeTile, overlayTile); //Find path with second click
+                    path = pathFinder.FindPath(character.activeTile, overlayTile, inRangeTiles); //Find path with second click
                     overlayTile.GetComponent<OverlayTile>().HideTile();
                 }
             }
