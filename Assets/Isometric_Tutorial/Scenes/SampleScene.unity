@@ -325,6 +325,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 148aeed44d64d5045917e78f8f9b3efe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cursor: {fileID: 739872341}
   speed: 4
   characterPrefab: {fileID: 6465230557981616540, guid: 1677755fdad52f54a826f7d13cafde99, type: 3}
 --- !u!1 &1168486946
