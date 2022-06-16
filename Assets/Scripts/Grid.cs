@@ -43,7 +43,7 @@ public class Grid
     private void GetXY(Vector3 worldPosition, out int x, out int y)
     {
         x = Mathf.FloorToInt(worldPosition.x / cellSize);
-        y = Mathf.FloorToInt(worldPosition.x / cellSize);
+        y = Mathf.FloorToInt(worldPosition.y / cellSize);
     }
 
     public void SetValue(int x, int y, int value)
