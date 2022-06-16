@@ -8,19 +8,19 @@ using CodeMonkey.Utils;
 public class Testing : MonoBehaviour
 {
 
-    private Grid grid;
+    private Grid<bool> grid;
 
     // Start is called before the first frame update
     private void Start()
     {
-        grid = new Grid(3, 3, 10f, new Vector3(-20, -20)); 
+        grid = new Grid<bool>(3, 3, 10f, new Vector3(-20, -20)); 
     }
 
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            grid.SetValue(UtilsClass.GetMouseWorldPosition(), 56); //For 3D camera GetMouseWorldPositionWithZ
+            //grid.SetValue(UtilsClass.GetMouseWorldPosition(), 56); //For 3D camera GetMouseWorldPositionWithZ
         }
 
         if (Input.GetMouseButtonDown(1))
