@@ -22,6 +22,11 @@ public class Testing : MonoBehaviour
         {
             grid.SetValue(UtilsClass.GetMouseWorldPosition(), 56); //For 3D camera GetMouseWorldPositionWithZ
         }
+
+        if (Input.GetMouseButtonDown(1))
+        {
+            Debug.Log(grid.GetValue(UtilsClass.GetMouseWorldPosition()));
+        }
     }
 
 }
