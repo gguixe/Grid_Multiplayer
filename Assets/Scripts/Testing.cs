@@ -43,7 +43,7 @@ public class Testing : MonoBehaviour
     }
 }
 
-public class HeatMapGridObject
+public class HeatMapGridObject //Heatmap object for grid
 {
     private const int MIN = 0;
     private const int MAX = 100;
@@ -74,6 +74,40 @@ public class HeatMapGridObject
     public override string ToString()
     {
         return value.ToString();
+    }
+}
+
+public class StringGridObject //Object to add text into grid
+{
+    private Grid<HeatMapGridObject> grid;
+    private int x;
+    private int y;
+
+    private string letters;
+    private string numbers;
+
+    public StringGridObject(Grid<HeatMapGridObject> grid, int x, int y)
+    {
+        this.grid = grid;
+        this.x = x;
+        this.y = y;
+        letters = "";
+        numbers = "";
+    }
+
+    public void AddLetter(string letter)
+    {
+        letters += letter;
+    }
+
+    public void AddNumber(string number)
+    {
+        numbers += number;
+    }
+
+    public override string ToString()
+    {
+        return letters + "\n" + numbers;
     }
 }
 
