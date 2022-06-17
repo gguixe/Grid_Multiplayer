@@ -63,7 +63,12 @@ public class Grid<TGridObject> //Added generic
         return height;
     }
 
-    private Vector3 GetWorldPosition(int x, int y)
+    public float GetCellSize()
+    {
+        return cellSize;
+    }
+
+    public Vector3 GetWorldPosition(int x, int y)
     {
         return new Vector3(x, y) * cellSize + originPosition;
     }

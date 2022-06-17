@@ -8,26 +8,43 @@ using CodeMonkey.Utils;
 public class Testing : MonoBehaviour
 {
 
+    [SerializeField] private HeatMapVisual heatMapVisual;
+    [SerializeField] private HeatMapVisualBool heatMapVisualBool;
     private Grid<bool> grid;
 
     // Start is called before the first frame update
     private void Start()
     {
-        grid = new Grid<bool>(3, 3, 10f, new Vector3(-20, -20)); 
+        grid = new Grid<bool>(3, 3, 10f, new Vector3(-20, -20));
+
+        heatMapVisualBool.SetGrid(grid);
     }
 
     private void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            //grid.SetValue(UtilsClass.GetMouseWorldPosition(), 56); //For 3D camera GetMouseWorldPositionWithZ
-        }
-
-        if (Input.GetMouseButtonDown(1))
-        {
-            Debug.Log(grid.GetValue(UtilsClass.GetMouseWorldPosition()));
+            Vector3 position = UtilsClass.GetMouseWorldPosition();
+            //BOOL
+            grid.SetValue(position, true);
+            //INT
+            //int value = grid.GetValue(position);
+            //grid.SetValue(position, value + 5);
         }
     }
+
+    //private void Update()
+    //{
+    //    if (Input.GetMouseButtonDown(0))
+    //    {
+    //        //grid.SetValue(UtilsClass.GetMouseWorldPosition(), 56); //For 3D camera GetMouseWorldPositionWithZ
+    //    }
+
+    //    if (Input.GetMouseButtonDown(1))
+    //    {
+    //        Debug.Log(grid.GetValue(UtilsClass.GetMouseWorldPosition()));
+    //    }
+    //}
 
     //private class HeatMapVisual
     //{
