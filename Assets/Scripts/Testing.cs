@@ -8,8 +8,9 @@ using CodeMonkey.Utils;
 public class Testing : MonoBehaviour
 {
 
-    [SerializeField] private HeatMapVisual heatMapVisual;
-    [SerializeField] private HeatMapVisualBool heatMapVisualBool;
+    //[SerializeField] private HeatMapVisual heatMapVisual;
+    //[SerializeField] private HeatMapVisualBool heatMapVisualBool;
+    [SerializeField] private HeatMapVisualGeneric heatMapVisualGeneric;
     private Grid<HeatMapGridObject> grid;
 
     // Start is called before the first frame update
@@ -19,6 +20,7 @@ public class Testing : MonoBehaviour
 
         //heatMapVisual.SetGrid(grid);
         //heatMapVisualBool.SetGrid(grid);
+        heatMapVisualGeneric.SetGrid(grid);
     }
 
     private void Update()
@@ -39,39 +41,40 @@ public class Testing : MonoBehaviour
             //grid.SetValue(position, value + 5);
         }
     }
+}
 
-    public class HeatMapGridObject
+public class HeatMapGridObject
+{
+    private const int MIN = 0;
+    private const int MAX = 100;
+
+    private Grid<HeatMapGridObject> grid;
+    private int x;
+    private int y;
+    public int value;
+
+    public HeatMapGridObject(Grid<HeatMapGridObject> grid, int x, int y)
     {
-        private const int MIN = 0;
-        private const int MAX = 100;
-
-        private Grid<HeatMapGridObject> grid;
-        private int x;
-        private int y;
-        public int value;
-
-        public HeatMapGridObject(Grid<HeatMapGridObject> grid, int x, int y)
-        {
-            this.grid = grid;
-            this.x = x;
-            this.y = y;
-        }
-
-        public void AddValue(int addValue)
-        {
-            value += Mathf.Clamp(addValue, MIN, MAX);
-            grid.TriggerGridObjectChanged(x, y);
-        }
-
-        public float getValueNormalized()
-        {
-            return (float)value / MAX;
-        }
-
-        public override string ToString()
-        {
-            return value.ToString();
-        }
+        this.grid = grid;
+        this.x = x;
+        this.y = y;
     }
 
+    public void AddValue(int addValue)
+    {
+        value += Mathf.Clamp(addValue, MIN, MAX);
+        grid.TriggerGridObjectChanged(x, y);
+    }
+
+    public float getValueNormalized()
+    {
+        return (float)value / MAX;
+    }
+
+    public override string ToString()
+    {
+        return value.ToString();
+    }
 }
+
+
