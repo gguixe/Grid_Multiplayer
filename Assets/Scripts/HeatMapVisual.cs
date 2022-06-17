@@ -39,7 +39,7 @@ public class HeatMapVisual : MonoBehaviour
                 Vector3 quadSize = new Vector3(1, 1) * grid.GetCellSize();
 
                 //Debug.Log(index);
-                int gridValue = grid.GetValue(x, y);
+                int gridValue = grid.GetGridObject(x, y);
                 float gridValueNormalized = (float)gridValue / 100; //GRID MAX
                 Vector2 gridValueUV = new Vector2(gridValueNormalized, 0f);
                 MeshUtils.AddToMeshArrays(vertices, uv, triangles, index, grid.GetWorldPosition(x, y) + quadSize * .5f, 0f, quadSize, gridValueUV, gridValueUV);

@@ -20,7 +20,7 @@ public class Grid<TGridObject> //Added generic
     private TGridObject[,] gridArray;
     private TextMesh[,] debugTextArray;
 
-    public Grid(int width, int height, float cellSize, Vector3 originPosition, Func<TGridObject> createGridObject)
+    public Grid(int width, int height, float cellSize, Vector3 originPosition, Func<Grid<TGridObject>, int, int, TGridObject> createGridObject)
     {
         this.width = width;
         this.height = height;
@@ -33,7 +33,7 @@ public class Grid<TGridObject> //Added generic
         {
             for (int y = 0; y < gridArray.GetLength(1); y++)
             {
-                gridArray[x, y] = createGridObject();
+                gridArray[x, y] = createGridObject(this, x, y);
             }
         }
 
@@ -102,6 +102,11 @@ public class Grid<TGridObject> //Added generic
         int x, y;
         GetXY(worldPosition, out x, out y);
         SetGridObject(x, y, value);
+    }
+
+    public void TriggerGridObjectChanged(int x, int y)
+    {
+        if (OnGridValueChanged != null) OnGridValueChanged(this, new OnGridValueChangedEventArgs { x = x, y = y });
     }
 
     public TGridObject GetGridObject(int x, int y)
