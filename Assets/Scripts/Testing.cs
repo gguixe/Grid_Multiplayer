@@ -25,9 +25,9 @@ public class Testing : MonoBehaviour
 
             if(path != null)
             {
-                Debug.Log("PATH NOT NULL");
                 for(int i=0; i<path.Count - 1; i++)
                 {
+                    Debug.Log("Drawn line");
                     Debug.DrawLine(new Vector3(path[i].x, path[i].y) * 10f + Vector3.one * 5f, new Vector3(path[i + 1].x, path[i + 1].y) * 10f + Vector3.one * 5f, Color.green, 5f);
                 }
             }
