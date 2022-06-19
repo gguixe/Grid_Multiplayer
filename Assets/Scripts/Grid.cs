@@ -37,7 +37,7 @@ public class Grid<TGridObject> //Added generic
             }
         }
 
-                bool showDebug = true;
+        bool showDebug = true;
         if (showDebug) 
         {
             TextMesh[,] debugTextArray = new TextMesh[width, height];
