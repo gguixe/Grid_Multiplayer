@@ -16,7 +16,7 @@ public class Pathfinding
     public Pathfinding(int width, int height)
     {
         Instance = this;
-        grid = new Grid<PathNode>(width, height, 10f, Vector3.zero, (Grid<PathNode> grid, int x, int y) => new PathNode(grid, x, y));
+        grid = new Grid<PathNode>(width, height, 10f, Vector3.zero, (Grid<PathNode> g, int x, int y) => new PathNode(g, x, y));
     }
 
     public List<Vector3> FindPath(Vector3 startWorldPosition, Vector3 endWorldPosition) //Convert Vector3 input to PathNode and returns Vector3
@@ -58,7 +58,7 @@ public class Pathfinding
             for (int y = 0; y < grid.GetHeight(); y++)
             {
                 PathNode pathNode = grid.GetGridObject(x, y);
-                pathNode.gCost = int.MaxValue;
+                pathNode.gCost = 99999999;
                 pathNode.CalculateFCost();
                 pathNode.cameFromNode = null;
             }
@@ -131,7 +131,7 @@ public class Pathfinding
             //Left Up
             if (currentNode.y + 1 < grid.GetHeight()) neightbourList.Add(GetNode(currentNode.x - 1, currentNode.y + 1));
         }
-        if (currentNode.x - 1 < grid.GetWidth())
+        if (currentNode.x + 1 < grid.GetWidth())
         {
             //Right
             neightbourList.Add(GetNode(currentNode.x + 1, currentNode.y));
