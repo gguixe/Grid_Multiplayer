@@ -6,7 +6,7 @@ using CodeMonkey;
 //TUTORIAL HELP: https://www.youtube.com/watch?v=waEsGu--9P8&t=111s
 
 
-public class Testing : MonoBehaviour
+public class DemoPathfinding : MonoBehaviour
 {
     [SerializeField] private UnitMovement unitMovement;
 
