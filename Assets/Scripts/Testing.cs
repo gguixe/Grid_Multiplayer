@@ -13,7 +13,7 @@ public class Testing : MonoBehaviour
     private Pathfinding pathfinding;
     private void Start()
     {
-        pathfinding = new Pathfinding(10, 10);
+        pathfinding = new Pathfinding(5, 5);
     }
 
     private void Update()
@@ -22,6 +22,8 @@ public class Testing : MonoBehaviour
         {
             Vector3 mouseWorldPosition = UtilsClass.GetMouseWorldPosition();
             pathfinding.GetGrid().GetXY(mouseWorldPosition, out int x, out int y);
+            unitMovement.SetTargetPosition(mouseWorldPosition);
+
             //List<PathNode> path = pathfinding.FindPath(0, 0, x, y);
 
             //bool showDebug = false;
@@ -32,8 +34,6 @@ public class Testing : MonoBehaviour
             //        Debug.DrawLine(new Vector3(path[i].x, path[i].y) * 10f + Vector3.one * 5f, new Vector3(path[i + 1].x, path[i + 1].y) * 10f + Vector3.one * 5f, Color.green, 5f);
             //    }
             //}
-
-            unitMovement.SetTargetPosition(mouseWorldPosition);
 
         }
 
