@@ -30,7 +30,8 @@ public class Tilemap
         public enum TilemapSprite
         {
             None,
-            Ground
+            Ground,
+            Path,
         }
 
         private Grid<TilemapObject> grid;

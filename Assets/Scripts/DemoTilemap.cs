@@ -2,11 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using CodeMonkey.Utils;
+using CodeMonkey;
 
 public class DemoTilemap : MonoBehaviour
 {
     [SerializeField] private TilemapVisual tilemapVisual;
     private Tilemap tilemap;
+    private Tilemap.TilemapObject.TilemapSprite tilemapSprite;
 
     private void Start()
     {
@@ -19,7 +21,23 @@ public class DemoTilemap : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Vector3 mouseWorldPosition = UtilsClass.GetMouseWorldPosition();
-            tilemap.SetTilemapSprite(mouseWorldPosition, Tilemap.TilemapObject.TilemapSprite.Ground);
+            tilemap.SetTilemapSprite(mouseWorldPosition, tilemapSprite);
+        }
+
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            tilemapSprite = Tilemap.TilemapObject.TilemapSprite.None;
+            CMDebug.TextPopupMouse(tilemapSprite.ToString());
+        }
+        if (Input.GetKeyDown(KeyCode.Y))
+        {
+            tilemapSprite = Tilemap.TilemapObject.TilemapSprite.Ground;
+            CMDebug.TextPopupMouse(tilemapSprite.ToString());
+        }
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            tilemapSprite = Tilemap.TilemapObject.TilemapSprite.Path;
+            CMDebug.TextPopupMouse(tilemapSprite.ToString());
         }
     }
 }
