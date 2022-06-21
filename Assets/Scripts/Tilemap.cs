@@ -20,6 +20,11 @@ public class Tilemap
         }
     }
 
+    public void SetTilemapVisual(TilemapVisual tilemapVisual)
+    {
+        tilemapVisual.SetGrid(grid); //Start tilemap visual
+    }
+
     public class TilemapObject
     {
         public enum TilemapSprite
@@ -44,6 +49,11 @@ public class Tilemap
         {
             this.tilemapSprite = tilemapSprite;
             grid.TriggerGridObjectChanged(x, y);
+        }
+
+        public TilemapSprite GetTilemapSprite()
+        {
+            return tilemapSprite;
         }
 
         public override string ToString()

@@ -25,7 +25,8 @@ public class HeatMapVisualGeneric : MonoBehaviour
 
     private void Grid_OnGridValueChanged(object sender, Grid<HeatMapGridObject>.OnGridValueChangedEventArgs e)
     {
-        UpdateHeatMapVisual();
+        //UpdateHeatMapVisual();
+        updateMesh = true;
     }
 
     private void LateUpdate()

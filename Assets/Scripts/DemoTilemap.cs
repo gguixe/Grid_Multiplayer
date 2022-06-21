@@ -5,12 +5,13 @@ using CodeMonkey.Utils;
 
 public class DemoTilemap : MonoBehaviour
 {
-
+    [SerializeField] private TilemapVisual tilemapVisual;
     private Tilemap tilemap;
 
     private void Start()
     {
         tilemap = new Tilemap(20, 20, 10f, Vector3.zero);
+        tilemap.SetTilemapVisual(tilemapVisual);
     }
 
     private void Update()
