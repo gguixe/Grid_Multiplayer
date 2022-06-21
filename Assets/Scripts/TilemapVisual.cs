@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using CodeMonkey.Utils;
 
-public class HeatMapVisualGeneric : MonoBehaviour
+public class TilemapVisual : MonoBehaviour
 {
-    private Grid<HeatMapGridObject> grid;
+    private Grid<int> grid;
     private Mesh mesh;
-    private bool updateMesh;
 
     private void Awake()
     {
@@ -15,7 +14,7 @@ public class HeatMapVisualGeneric : MonoBehaviour
         GetComponent<MeshFilter>().mesh = mesh;
     }
 
-    public void SetGrid(Grid<HeatMapGridObject> grid)
+    public void SetGrid(Grid<int> grid)
     {
         this.grid = grid;
         UpdateHeatMapVisual();
@@ -23,18 +22,9 @@ public class HeatMapVisualGeneric : MonoBehaviour
         grid.OnGridValueChanged += Grid_OnGridValueChanged;
     }
 
-    private void Grid_OnGridValueChanged(object sender, Grid<HeatMapGridObject>.OnGridValueChangedEventArgs e)
+    private void Grid_OnGridValueChanged(object sender, Grid<int>.OnGridValueChangedEventArgs e)
     {
         UpdateHeatMapVisual();
-    }
-
-    private void LateUpdate()
-    {
-        if (updateMesh)
-        {
-            updateMesh = false;
-            UpdateHeatMapVisual();
-        }
     }
 
     private void UpdateHeatMapVisual()
@@ -49,9 +39,8 @@ public class HeatMapVisualGeneric : MonoBehaviour
                 Vector3 quadSize = new Vector3(1, 1) * grid.GetCellSize();
 
                 //Debug.Log(index);
-                //UPDATE VISUAL
-                HeatMapGridObject gridObject = grid.GetGridObject(x, y);
-                float gridValueNormalized = gridObject.getValueNormalized();
+                int gridValue = grid.GetGridObject(x, y);
+                float gridValueNormalized = (float)gridValue / 100; //GRID MAX
                 Vector2 gridValueUV = new Vector2(gridValueNormalized, 0f);
                 MeshUtils.AddToMeshArrays(vertices, uv, triangles, index, grid.GetWorldPosition(x, y) + quadSize * .5f, 0f, quadSize, gridValueUV, gridValueUV);
             }
