@@ -32,6 +32,7 @@ public class Tilemap
             None,
             Ground,
             Path,
+            Dirt,
         }
 
         private Grid<TilemapObject> grid;

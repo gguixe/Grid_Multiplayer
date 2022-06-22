@@ -39,5 +39,10 @@ public class DemoTilemap : MonoBehaviour
             tilemapSprite = Tilemap.TilemapObject.TilemapSprite.Path;
             CMDebug.TextPopupMouse(tilemapSprite.ToString());
         }
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            tilemapSprite = Tilemap.TilemapObject.TilemapSprite.Dirt;
+            CMDebug.TextPopupMouse(tilemapSprite.ToString());
+        }
     }
 }
