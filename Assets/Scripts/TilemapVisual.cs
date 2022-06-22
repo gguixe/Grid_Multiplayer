@@ -72,18 +72,17 @@ public class TilemapVisual : MonoBehaviour
     {
         MeshUtils.CreateEmptyMeshArrays(grid.GetWidth() * grid.GetHeight(), out Vector3[] vertices, out Vector2[] uv, out int[] triangles);
 
-        for (int x = 0; x < grid.GetWidth(); x++) //Cycle multidimensional array
+        for (int x = 0; x < grid.GetWidth(); x++)
         {
             for (int y = 0; y < grid.GetHeight(); y++)
             {
                 int index = x * grid.GetHeight() + y;
                 Vector3 quadSize = new Vector3(1, 1) * grid.GetCellSize();
 
-                //Debug.Log(index);
                 Tilemap.TilemapObject gridObject = grid.GetGridObject(x, y);
                 Tilemap.TilemapObject.TilemapSprite tilemapSprite = gridObject.GetTilemapSprite();
                 Vector2 gridUV00, gridUV11;
-                if(tilemapSprite == Tilemap.TilemapObject.TilemapSprite.None)
+                if (tilemapSprite == Tilemap.TilemapObject.TilemapSprite.None)
                 {
                     gridUV00 = Vector2.zero;
                     gridUV11 = Vector2.zero;
@@ -95,13 +94,12 @@ public class TilemapVisual : MonoBehaviour
                     gridUV00 = uvCoords.uv00;
                     gridUV11 = uvCoords.uv11;
                 }
-
                 MeshUtils.AddToMeshArrays(vertices, uv, triangles, index, grid.GetWorldPosition(x, y) + quadSize * .5f, 0f, quadSize, gridUV00, gridUV11);
             }
-
-            mesh.vertices = vertices;
-            mesh.uv = uv;
-            mesh.triangles = triangles;
         }
+        mesh.vertices = vertices;
+        mesh.uv = uv;
+        mesh.triangles = triangles;
     }
 }
+

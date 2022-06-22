@@ -339,7 +339,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0daaced6d7768fa47a3b30245539c6c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tilemapVisual: {fileID: 0}
+  tilemapVisual: {fileID: 7673773}
 --- !u!4 &1561735093
 Transform:
   m_ObjectHideFlags: 0
