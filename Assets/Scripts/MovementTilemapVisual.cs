@@ -51,7 +51,7 @@ public class MovementTilemapVisual : MonoBehaviour
         this.grid = grid;
         UpdateHeatMapVisual();
 
-        grid.OnGridObjectChanged += Grid_OnGridValueChanged;
+        grid.OnGridValueChanged += Grid_OnGridValueChanged;
         tilemap.OnLoaded += Tilemap_OnLoaded;
     }
 
@@ -60,7 +60,7 @@ public class MovementTilemapVisual : MonoBehaviour
         updateMesh = true;
     }
 
-    private void Grid_OnGridValueChanged(object sender, Grid<MovementTilemap.TilemapObject>.OnGridObjectChangedEventArgs e)
+    private void Grid_OnGridValueChanged(object sender, Grid<MovementTilemap.TilemapObject>.OnGridValueChangedEventArgs e)
     {
         updateMesh = true;
     }

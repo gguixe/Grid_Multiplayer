@@ -26,9 +26,9 @@ public class GridGameHandler : MonoBehaviour
         float cellSize = 10f;
         Vector3 origin = new Vector3(0, 0);
 
-        grid = new Grid<EmptyGridObject>(mapWidth, mapHeight, cellSize, origin, (Grid<EmptyGridObject> g, int x, int y) => new TilemapObject(g, x, y));
+        grid = new Grid<EmptyGridObject>(mapWidth, mapHeight, cellSize, origin, (Grid<EmptyGridObject> g, int x, int y) => new EmptyGridObject(g, x, y));
 
-        gridPathfinding = new GridPathfinding(origin + new Vector3(1, 1) * cellSize * .5f, new Vector3(mapWidth, mapHeight));
+        gridPathfinding = new GridPathfinding(origin + new Vector3(1, 1) * cellSize * .5f, new Vector3(mapWidth, mapHeight) * cellSize, cellSize);
         //pathfinding.RaycastWalkable();
 
         tilemap = new Tilemap(mapWidth, mapHeight, cellSize, origin);
