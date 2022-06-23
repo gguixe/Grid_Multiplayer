@@ -2,39 +2,97 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PathNode
-{
-    private Grid<PathNode> grid;
-    public int x;
-    public int y;
+using System;
+using UnityEngine;
+using System.Collections;
 
-    public int gCost;
-    public int hCost;
-    public int fCost;
+namespace GridPathfindingSystem {
 
-    public bool isWalkable;
-    public PathNode cameFromNode;
+    using System;
+    using UnityEngine;
+    using System.Collections;
 
-    public PathNode(Grid<PathNode> grid, int x, int y)
+    public class PathNode
     {
-        this.grid = grid;
-        this.x = x;
-        this.y = y;
-        isWalkable = true;
-    }
 
-    public void CalculateFCost()
-    {
-        fCost = gCost + hCost;
-    }
+        public event EventHandler OnWalkableChanged;
 
-    public void SetIsWalkable(bool isWalkableState)
-    {
-        isWalkable = isWalkableState;
-    }
+        public int xPos;
+        public int yPos;
+        public PathNode parent;
+        public PathNode north;
+        public PathNode south;
+        public PathNode west;
+        public PathNode east;
+        public bool moveNorth;
+        public bool moveSouth;
+        public bool moveWest;
+        public bool moveEast;
 
-    public override string ToString()
-    {
-        return x + "," + y;
+        public bool isOnOpenList = false;
+        public bool isOnClosedList = false;
+
+        public int weight = 0;
+        public int gValue = 0;
+        public int hValue;
+        public int fValue;
+
+        //public Transform trans;
+        //public int layerMask = 1 << 9;
+
+        public PathNode(int _xPos, int _yPos)
+        {
+            xPos = _xPos;
+            yPos = _yPos;
+
+            moveNorth = true;
+            moveSouth = true;
+            moveWest = true;
+            moveEast = true;
+
+            //trans = ((GameObject) Object.Instantiate(Resources.Load("pfPathNode"), new Vector3(xPos*10, 0, zPos*10), Quaternion.identity)).transform;
+            TestHitbox();
+        }
+        public void ResetRestrictions()
+        {
+            moveNorth = true;
+            moveSouth = true;
+            moveWest = true;
+            moveEast = true;
+        }
+        public override string ToString()
+        {
+            return "x: " + xPos + ", y:" + yPos;
+        }
+        public void SetWalkable(bool walkable)
+        {
+            weight = walkable ? 0 : GridPathfinding.WALL_WEIGHT;
+            if (OnWalkableChanged != null) OnWalkableChanged(this, EventArgs.Empty);
+        }
+        public void SetWeight(int weight)
+        {
+            this.weight = weight;
+        }
+        public bool IsWalkable()
+        {
+            return weight < GridPathfinding.WALL_WEIGHT;
+        }
+        public void TestHitbox()
+        {
+            weight = 0;
+        }
+        public MapPos GetMapPos()
+        {
+            return new MapPos(xPos, yPos);
+        }
+        public void CalculateFValue()
+        {
+            fValue = gValue + hValue;
+        }
+        public Vector3 GetWorldVector(Vector3 worldOrigin, float nodeSize)
+        {
+            return worldOrigin + new Vector3(xPos * nodeSize, yPos * nodeSize);
+        }
     }
+    
 }

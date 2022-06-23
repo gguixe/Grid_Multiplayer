@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using CodeMonkey.Utils;
 using Cinemachine;
+using GridPathfindingSystem;
 
-public class GameHandler : MonoBehaviour
+public class GridGameHandler : MonoBehaviour
 {
-
-    public static GameHandler Instance { get; private set; }
+    public static GridGameHandler Instance { get; private set; }
 
     [SerializeField] private Transform cinemachineFollowTransform;
     [SerializeField] private TilemapVisual tilemapVisual;
@@ -15,7 +15,7 @@ public class GameHandler : MonoBehaviour
 
     private Grid<EmptyGridObject> grid;
     private Tilemap tilemap;
-    public Pathfinding pathfinding;
+    public GridPathfinding gridPathfinding;
 
     private void Awake()
     {
@@ -28,7 +28,7 @@ public class GameHandler : MonoBehaviour
 
         grid = new Grid<EmptyGridObject>(mapWidth, mapHeight, cellSize, origin, (Grid<EmptyGridObject> g, int x, int y) => new TilemapObject(g, x, y));
 
-        pathfinding = new Pathfinding(origin + new Vector3(1, 1) * cellSize * .5f, new Vector3(mapWidth, mapHeight));
+        gridPathfinding = new GridPathfinding(origin + new Vector3(1, 1) * cellSize * .5f, new Vector3(mapWidth, mapHeight));
         //pathfinding.RaycastWalkable();
 
         tilemap = new Tilemap(mapWidth, mapHeight, cellSize, origin);
