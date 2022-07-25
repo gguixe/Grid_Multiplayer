@@ -1,3 +1,7 @@
+//DESC: Script for saving/loading files.
+//NAME: Gerard Guixé
+//DATE: 06/2022
+
 using System.IO;
 using System.Collections;
 using System.Collections.Generic;

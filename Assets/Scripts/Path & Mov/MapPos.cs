@@ -1,3 +1,7 @@
+//DESC: Position on grid
+//NAME: Gerard Guixé
+//DATE: 06/2022
+
 using System.Collections.Generic;
 
 namespace GridPathfindingSystem

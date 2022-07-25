@@ -1,3 +1,8 @@
+//DESC: Tilemap Grid Object (Ex: Level Creator tools)
+//NAME: Gerard Guixé
+//DATE: 06/2022
+
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

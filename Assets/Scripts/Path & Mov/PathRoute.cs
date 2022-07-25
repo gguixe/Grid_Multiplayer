@@ -1,3 +1,7 @@
+//DESC: Pathfinding 
+//NAME: Gerard Guixé
+//DATE: 06/2022
+
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
