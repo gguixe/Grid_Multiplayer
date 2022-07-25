@@ -15,7 +15,7 @@ public class GridCombatSystem : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            unitGridCombat.MoveTo(UtilsClass.GetMouseWorldPosition(), () => { }); //With 3D game we should change this function
+            unitGridCombat.MoveTo(UtilsClass.GetMouseWorldPosition(), () => {}); //With 3D game we should change this function
         }
     }
 
