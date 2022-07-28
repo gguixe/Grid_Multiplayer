@@ -25,9 +25,8 @@ public class GridCombatSystem : MonoBehaviour
         {
             for (int y = unitY - maxMoveDistance; y < unitY + maxMoveDistance; y++)
             {
-
-                Debug.Log(gridPathfinding.IsWalkable(x, y));
-
+                //Debug.Log(gridPathfinding.IsWalkable(x, y));
+                //THIS IS ONLY WORKING WHEN WE ARE NOT ON THE EDGE OF THE GRID (BUG), IF THE UNIT HAS A BOX COLLIDER IT ALSO DOESN'T WORK
                 if (gridPathfinding.IsWalkable(x, y)) //gridPathfinding.IsWalkable(x, y)
                 {
                     //Position is walkable
