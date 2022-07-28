@@ -17,6 +17,9 @@ public class GridCombatSystem : MonoBehaviour
         grid.GetXY(unitGridCombat.GetPosition(), out int unitX, out int unitY); //We get unit position
         GridPathfindingSystem.GridPathfinding gridPathfinding = GameHandler_GridCombatSystem.Instance.gridPathfinding;
 
+        //Set entire tilemap to invisible
+        GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetAllTilemapSprite(MovementTilemap.TilemapObject.TilemapSprite.None);
+        
         int maxMoveDistance = 2; //We want to limit the distance each unit can move
         for (int x=unitX - maxMoveDistance; x < unitX + maxMoveDistance; x++) 
         {
@@ -31,6 +34,8 @@ public class GridCombatSystem : MonoBehaviour
                         if (gridPathfinding.GetPath(unitX, unitY, x, y).Count <= maxMoveDistance)
                         {
                             //Path within move distance
+                            //Set Tilemap to move
+                            GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetTilemapSprite(x, y, MovementTilemap.TilemapObject.TilemapSprite.Move); 
                         } else
                         {
                             //Path outside move distance
