@@ -460,7 +460,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abab30a72b647f1478fdcc3809263079, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tilemapSpriteUVArray: []
+  tilemapSpriteUVArray:
+  - tilemapSprite: 1
+    uv00Pixels: {x: 192, y: 0}
+    uv11Pixels: {x: 256, y: 64}
 --- !u!4 &1305756684
 Transform:
   m_ObjectHideFlags: 0
@@ -486,7 +489,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1922154609}
   m_Layer: 0
-  m_Name: CameraFocousPoint
+  m_Name: CameraFocusPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
