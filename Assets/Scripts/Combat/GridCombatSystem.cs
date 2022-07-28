@@ -25,6 +25,9 @@ public class GridCombatSystem : MonoBehaviour
         {
             for (int y = unitY - maxMoveDistance; y < unitY + maxMoveDistance; y++)
             {
+
+                Debug.Log(gridPathfinding.IsWalkable(x, y));
+
                 if (gridPathfinding.IsWalkable(x, y)) //gridPathfinding.IsWalkable(x, y)
                 {
                     //Position is walkable
