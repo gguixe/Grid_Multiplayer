@@ -56,7 +56,8 @@ public class UnitGridCombat : MonoBehaviour
     public void AttackUnit (UnitGridCombat unitGridCombat, Action onAttackComplete)
     {
         state = State.Attacking;
-        GameHandler_GridCombatSystem.Instance.ScreenShake();
+        //GameHandler_GridCombatSystem.Instance.ScreenShake();
+        Debug.Log("ATACCKED ENEMY " + unitGridCombat);
         state = State.Normal; onAttackComplete();
     }
 
