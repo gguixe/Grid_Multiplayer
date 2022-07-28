@@ -11,7 +11,25 @@ public class GridCombatSystem : MonoBehaviour
 {
     [SerializeField] private UnitGridCombat unitGridCombat;
 
+    private State state;
+
+    private enum State
+    {
+        Normal,
+        Waiting
+    }
+
+    private void Awake()
+    {
+        state = State.Normal;
+    }
+
     private void Start()
+    {
+        UpdateValidMovePosition();
+    }
+
+    private void UpdateValidMovePosition()
     {
         Grid<GridObject> grid = GameHandler_GridCombatSystem.Instance.GetGrid(); //We get combat grid
         grid.GetXY(unitGridCombat.GetPosition(), out int unitX, out int unitY); //We get unit position
@@ -68,13 +86,22 @@ public class GridCombatSystem : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        switch (state)
         {
-            //If the grid position is set as valid we allow movement (we get the grid cell on mouse position and check if cell is valid)
-            if (GameHandler_GridCombatSystem.Instance.GetGrid().GetGridObject(UtilsClass.GetMouseWorldPosition()).GetIsValidMovePosition())
-            {
-                unitGridCombat.MoveTo(UtilsClass.GetMouseWorldPosition(), () => { }); //With 3D game we should change this function
-            }
+            case State.Normal:
+                if (Input.GetMouseButtonDown(0))
+                {
+                    //If the grid position is set as valid we allow movement (we get the grid cell on mouse position and check if cell is valid)
+                    if (GameHandler_GridCombatSystem.Instance.GetGrid().GetGridObject(UtilsClass.GetMouseWorldPosition()).GetIsValidMovePosition())
+                    {
+                        //Valid Move Position
+                        state = State.Waiting;
+                        unitGridCombat.MoveTo(UtilsClass.GetMouseWorldPosition(), () => { state = State.Normal; UpdateValidMovePosition(); }); //With 3D game we should change this function //We use delegate on function to update state and positions
+                    }
+                }
+                break;
+            case State.Waiting:
+                break;
         }
     }
 
