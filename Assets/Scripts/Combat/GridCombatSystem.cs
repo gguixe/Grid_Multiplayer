@@ -20,12 +20,12 @@ public class GridCombatSystem : MonoBehaviour
         //Set entire tilemap to invisible
         GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetAllTilemapSprite(MovementTilemap.TilemapObject.TilemapSprite.None);
         
-        int maxMoveDistance = 2; //We want to limit the distance each unit can move
+        int maxMoveDistance = 3; //We want to limit the distance each unit can move
         for (int x=unitX - maxMoveDistance; x < unitX + maxMoveDistance; x++) 
         {
             for (int y = unitY - maxMoveDistance; y < unitY + maxMoveDistance; y++)
             {
-                if (gridPathfinding.IsWalkable(x, y))
+                if (gridPathfinding.IsWalkable(x, y)) //gridPathfinding.IsWalkable(x, y)
                 {
                     //Position is walkable
                     if (gridPathfinding.HasPath(unitX, unitY, x , y))
