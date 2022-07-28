@@ -10,6 +10,7 @@ using CodeMonkey.Utils;
 public class GridCombatSystem : MonoBehaviour
 {
     [SerializeField] private UnitGridCombat unitGridCombat;
+    [SerializeField] private UnitGridCombat[] unitGridCombatArray;
 
     private State state;
 
@@ -26,6 +27,12 @@ public class GridCombatSystem : MonoBehaviour
 
     private void Start()
     {
+        //Sell all Units on their grid position
+        foreach (UnitGridCombat unitGridCombat in unitGridCombatArray)
+        {
+            GameHandler_GridCombatSystem.Instance.GetGrid().GetGridObject(unitGridCombat.GetPosition()).SetUnitGridCombat(unitGridCombat);
+        }
+
         UpdateValidMovePosition();
     }
 
@@ -91,8 +98,31 @@ public class GridCombatSystem : MonoBehaviour
             case State.Normal:
                 if (Input.GetMouseButtonDown(0))
                 {
+                    Grid<GridObject> grid = GameHandler_GridCombatSystem.Instance.GetGrid();
+                    GridObject gridObject = grid.GetGridObject(UtilsClass.GetMouseWorldPosition());
+                    //Check if clicking on unit position
+                    if(gridObject.GetUnitGridCombat() != null)
+                    {
+                        //Clicked on unit
+                        //Check if target is enemy (different team)
+                        if (unitGridCombat.IsEnemy(gridObject.GetUnitGridCombat()))
+                        {
+                            //Clicked on Enemy of current unit (we attack)
+                            unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat(), () => { state = State.Normal; });
+                            break; //If we attack we break (so we dont move)
+                        }
+                        else
+                        {
+                            //Not enemy
+                        }
+                    }
+                    else
+                    {
+                        //Not unit here
+                    }
+
                     //If the grid position is set as valid we allow movement (we get the grid cell on mouse position and check if cell is valid)
-                    if (GameHandler_GridCombatSystem.Instance.GetGrid().GetGridObject(UtilsClass.GetMouseWorldPosition()).GetIsValidMovePosition())
+                    if (gridObject.GetIsValidMovePosition())
                     {
                         //Valid Move Position
                         state = State.Waiting;
@@ -105,7 +135,7 @@ public class GridCombatSystem : MonoBehaviour
         }
     }
 
-    public class GridObject
+    public class GridObject //Every grid cell is a grid object
     {
 
         private Grid<GridObject> grid;

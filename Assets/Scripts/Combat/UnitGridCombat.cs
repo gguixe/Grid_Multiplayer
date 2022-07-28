@@ -53,6 +53,13 @@ public class UnitGridCombat : MonoBehaviour
         });
     }
 
+    public void AttackUnit (UnitGridCombat unitGridCombat, Action onAttackComplete)
+    {
+        state = State.Attacking;
+        GameHandler_GridCombatSystem.Instance.ScreenShake();
+        state = State.Normal; onAttackComplete();
+    }
+
     //GET DATA FROM UNIT
     public Vector3 GetPosition()
     {
