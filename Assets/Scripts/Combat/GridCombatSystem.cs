@@ -19,7 +19,16 @@ public class GridCombatSystem : MonoBehaviour
 
         //Set entire tilemap to invisible
         GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetAllTilemapSprite(MovementTilemap.TilemapObject.TilemapSprite.None);
-        
+
+        //Reset all grid valid move positions (all false until checked again)
+        for (int x = 0; x < grid.GetWidth(); x++)
+        {
+            for(int y = 0; y < grid.GetHeight(); y++)
+            {
+                grid.GetGridObject(x, y).SetIsValidMovePosition(false);
+            }
+        }
+
         int maxMoveDistance = 3; //We want to limit the distance each unit can move
         for (int x=unitX - maxMoveDistance; x < unitX + maxMoveDistance; x++) 
         {
@@ -37,7 +46,8 @@ public class GridCombatSystem : MonoBehaviour
                         {
                             //Path within move distance
                             //Set Tilemap to move
-                            GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetTilemapSprite(x, y, MovementTilemap.TilemapObject.TilemapSprite.Move); 
+                            GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetTilemapSprite(x, y, MovementTilemap.TilemapObject.TilemapSprite.Move);
+                            grid.GetGridObject(x, y).SetIsValidMovePosition(true);
                         } else
                         {
                             //Path outside move distance
@@ -60,7 +70,11 @@ public class GridCombatSystem : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            unitGridCombat.MoveTo(UtilsClass.GetMouseWorldPosition(), () => {}); //With 3D game we should change this function
+            //If the grid position is set as valid we allow movement (we get the grid cell on mouse position and check if cell is valid)
+            if (GameHandler_GridCombatSystem.Instance.GetGrid().GetGridObject(UtilsClass.GetMouseWorldPosition()).GetIsValidMovePosition())
+            {
+                unitGridCombat.MoveTo(UtilsClass.GetMouseWorldPosition(), () => { }); //With 3D game we should change this function
+            }
         }
     }
 
