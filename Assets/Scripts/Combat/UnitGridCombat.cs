@@ -53,11 +53,16 @@ public class UnitGridCombat : MonoBehaviour
         });
     }
 
+    public bool CanAttackUnit(UnitGridCombat unitGridCombat)
+    {
+        return Vector3.Distance(GetPosition(), unitGridCombat.GetPosition()) < 50f; //Attack distance is 50f right now
+    }
+
     public void AttackUnit (UnitGridCombat unitGridCombat, Action onAttackComplete)
     {
         state = State.Attacking;
         //GameHandler_GridCombatSystem.Instance.ScreenShake();
-        Debug.Log("ATACCKED ENEMY " + unitGridCombat);
+        //Debug.Log("ATACKED ENEMY " + unitGridCombat);
         state = State.Normal; onAttackComplete();
     }
 

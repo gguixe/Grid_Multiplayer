@@ -107,9 +107,19 @@ public class GridCombatSystem : MonoBehaviour
                         //Check if target is enemy (different team)
                         if (unitGridCombat.IsEnemy(gridObject.GetUnitGridCombat()))
                         {
-                            //Clicked on Enemy of current unit (we attack)
-                            unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat(), () => { state = State.Normal; });
-                            break; //If we attack we break (so we dont move)
+                            if (unitGridCombat.CanAttackUnit(gridObject.GetUnitGridCombat())) //Can attack
+                            {
+                                //Clicked on Enemy of current unit (we attack)
+                                unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat(), () => { state = State.Normal; });
+                                CodeMonkey.CMDebug.TextPopupMouse("PIUM PIUM PIUM!");
+                            }
+                            else
+                            {
+                                //Cannot attack enemy (distance)
+                                //Debug.Log("ENEMY " + unitGridCombat + " too FAR AWAY");
+                                CodeMonkey.CMDebug.TextPopupMouse("Cannot attack!");
+                            }
+                            break; //If we try to attack we break (so we dont move)
                         }
                         else
                         {
@@ -126,6 +136,8 @@ public class GridCombatSystem : MonoBehaviour
                     {
                         //Valid Move Position
                         state = State.Waiting;
+                        grid.GetGridObject(unitGridCombat.GetPosition()).ClearUnitGridCombat(); //Remove unit from origin/current cell
+                        gridObject.SetUnitGridCombat(unitGridCombat); //Tell target cell that this unit is set there
                         unitGridCombat.MoveTo(UtilsClass.GetMouseWorldPosition(), () => { state = State.Normal; UpdateValidMovePosition(); }); //With 3D game we should change this function //We use delegate on function to update state and positions
                     }
                 }
@@ -142,7 +154,7 @@ public class GridCombatSystem : MonoBehaviour
         private int x;
         private int y;
         private bool isValidMovePosition;
-        private UnitGridCombat unitGridCombat;
+        private UnitGridCombat unitGridCombat; //Define which unit is in each cell
 
         public GridObject(Grid<GridObject> grid, int x, int y)
         {
