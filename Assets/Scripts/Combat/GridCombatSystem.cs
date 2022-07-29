@@ -68,6 +68,7 @@ public class GridCombatSystem : MonoBehaviour
             unitGridCombat = GetNextActiveUnit(UnitGridCombat.Team.Red);
         }
 
+        GameHandler_GridCombatSystem.Instance.SetCameraFollowPosition(unitGridCombat.GetPosition());
         canMoveThisTurn = true;
         canAttackThisTurn = true;
     }
@@ -163,7 +164,7 @@ public class GridCombatSystem : MonoBehaviour
                                     //Clicked on Enemy of current unit (we attack)
                                     unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat(), () => { state = State.Normal; });
                                     CodeMonkey.CMDebug.TextPopupMouse("PIUM PIUM PIUM!");
-                                    TestTurnOver()
+                                    TestTurnOver();
                                 }
                             }
                             else
@@ -201,6 +202,12 @@ public class GridCombatSystem : MonoBehaviour
                         }
                     }
                 }
+
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    ForceTurnOver();
+                }
+
                 break;
             case State.Waiting:
                 break;
