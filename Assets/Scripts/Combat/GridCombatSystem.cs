@@ -9,10 +9,14 @@ using CodeMonkey.Utils;
 
 public class GridCombatSystem : MonoBehaviour
 {
-    [SerializeField] private UnitGridCombat unitGridCombat;
     [SerializeField] private UnitGridCombat[] unitGridCombatArray;
 
     private State state;
+    private UnitGridCombat unitGridCombat;
+    private List<UnitGridCombat> blueTeamList;
+    private List<UnitGridCombat> redTeamList;
+    private int blueTeamActiveUnitIndex;
+    private int redTeamActiveUnitIndex;
 
     private enum State
     {
@@ -27,13 +31,53 @@ public class GridCombatSystem : MonoBehaviour
 
     private void Start()
     {
-        //Sell all Units on their grid position
+        blueTeamList = new List<UnitGridCombat>();
+        redTeamList = new List<UnitGridCombat>();
+        blueTeamActiveUnitIndex = -1;
+        redTeamActiveUnitIndex = -1;
+
+        //Set all Units on their grid position
         foreach (UnitGridCombat unitGridCombat in unitGridCombatArray)
         {
             GameHandler_GridCombatSystem.Instance.GetGrid().GetGridObject(unitGridCombat.GetPosition()).SetUnitGridCombat(unitGridCombat);
-        }
 
+            if(unitGridCombat.GetTeam() == UnitGridCombat.Team.Blue)
+            {
+                blueTeamList.Add(unitGridCombat);
+            } 
+            else
+            {
+                redTeamList.Add(unitGridCombat);
+            }
+        }
+        SelectNextActiveUnit();
         UpdateValidMovePosition();
+    }
+
+    //First time will pick blue team, then will go blue until all units moved, and then red until all units moved.
+    private void SelectNextActiveUnit()
+    {
+        if(unitGridCombat == null || unitGridCombat.GetTeam() == UnitGridCombat.Team.Red) 
+        {
+            unitGridCombat = GetNextActiveUnit(UnitGridCombat.Team.Blue);
+        }
+        else
+        {
+            unitGridCombat = GetNextActiveUnit(UnitGridCombat.Team.Red);
+        }
+    }
+
+    private UnitGridCombat GetNextActiveUnit(UnitGridCombat.Team team)
+    {
+        if (team == UnitGridCombat.Team.Blue)
+        {
+            blueTeamActiveUnitIndex = (blueTeamActiveUnitIndex + 1) % blueTeamList.Count;
+            return blueTeamList[blueTeamActiveUnitIndex];
+        } else
+        {
+            redTeamActiveUnitIndex = (redTeamActiveUnitIndex + 1) % redTeamList.Count;
+            return redTeamList[redTeamActiveUnitIndex];
+        }
     }
 
     private void UpdateValidMovePosition()
@@ -138,7 +182,11 @@ public class GridCombatSystem : MonoBehaviour
                         state = State.Waiting;
                         grid.GetGridObject(unitGridCombat.GetPosition()).ClearUnitGridCombat(); //Remove unit from origin/current cell
                         gridObject.SetUnitGridCombat(unitGridCombat); //Tell target cell that this unit is set there
-                        unitGridCombat.MoveTo(UtilsClass.GetMouseWorldPosition(), () => { state = State.Normal; UpdateValidMovePosition(); }); //With 3D game we should change this function //We use delegate on function to update state and positions
+                        unitGridCombat.MoveTo(UtilsClass.GetMouseWorldPosition(), () => { 
+                            state = State.Normal;
+                            SelectNextActiveUnit(); //Go to next unit after movement
+                            UpdateValidMovePosition(); 
+                        }); //With 3D game we should change this function //We use delegate on function to update state and positions
                     }
                 }
                 break;
