@@ -17,6 +17,8 @@ public class GridCombatSystem : MonoBehaviour
     private List<UnitGridCombat> redTeamList;
     private int blueTeamActiveUnitIndex;
     private int redTeamActiveUnitIndex;
+    private bool canMoveThisTurn; //We should modifiy this AC system later
+    private bool canAttackThisTurn;
 
     private enum State
     {
@@ -65,6 +67,9 @@ public class GridCombatSystem : MonoBehaviour
         {
             unitGridCombat = GetNextActiveUnit(UnitGridCombat.Team.Red);
         }
+
+        canMoveThisTurn = true;
+        canAttackThisTurn = true;
     }
 
     private UnitGridCombat GetNextActiveUnit(UnitGridCombat.Team team)
@@ -153,9 +158,13 @@ public class GridCombatSystem : MonoBehaviour
                         {
                             if (unitGridCombat.CanAttackUnit(gridObject.GetUnitGridCombat())) //Can attack
                             {
-                                //Clicked on Enemy of current unit (we attack)
-                                unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat(), () => { state = State.Normal; });
-                                CodeMonkey.CMDebug.TextPopupMouse("PIUM PIUM PIUM!");
+                                if (canAttackThisTurn) { //Check if AC still reamaining
+                                    canAttackThisTurn = false;
+                                    //Clicked on Enemy of current unit (we attack)
+                                    unitGridCombat.AttackUnit(gridObject.GetUnitGridCombat(), () => { state = State.Normal; });
+                                    CodeMonkey.CMDebug.TextPopupMouse("PIUM PIUM PIUM!");
+                                    TestTurnOver()
+                                }
                             }
                             else
                             {
@@ -178,15 +187,18 @@ public class GridCombatSystem : MonoBehaviour
                     //If the grid position is set as valid we allow movement (we get the grid cell on mouse position and check if cell is valid)
                     if (gridObject.GetIsValidMovePosition())
                     {
-                        //Valid Move Position
-                        state = State.Waiting;
-                        grid.GetGridObject(unitGridCombat.GetPosition()).ClearUnitGridCombat(); //Remove unit from origin/current cell
-                        gridObject.SetUnitGridCombat(unitGridCombat); //Tell target cell that this unit is set there
-                        unitGridCombat.MoveTo(UtilsClass.GetMouseWorldPosition(), () => { 
-                            state = State.Normal;
-                            SelectNextActiveUnit(); //Go to next unit after movement
-                            UpdateValidMovePosition(); 
-                        }); //With 3D game we should change this function //We use delegate on function to update state and positions
+                        if (canMoveThisTurn) //We check if movement already happened
+                        {
+                            canMoveThisTurn = false;
+                            //Valid Move Position
+                            state = State.Waiting;
+                            grid.GetGridObject(unitGridCombat.GetPosition()).ClearUnitGridCombat(); //Remove unit from origin/current cell
+                            gridObject.SetUnitGridCombat(unitGridCombat); //Tell target cell that this unit is set there
+                            unitGridCombat.MoveTo(UtilsClass.GetMouseWorldPosition(), () => { 
+                                state = State.Normal;
+                                TestTurnOver(); //check if end of turn
+                            }); //With 3D game we should change this function //We use delegate on function to update state and positions
+                        }
                     }
                 }
                 break;
@@ -194,6 +206,21 @@ public class GridCombatSystem : MonoBehaviour
                 break;
         }
     }
+
+    private void TestTurnOver()
+    {
+        if(!canMoveThisTurn && !canAttackThisTurn)
+        {
+            ForceTurnOver();
+        }
+    }
+
+    private void ForceTurnOver()
+    {
+        SelectNextActiveUnit(); //Go to next unit after movement
+        UpdateValidMovePosition();
+    }
+
 
     public class GridObject //Every grid cell is a grid object
     {
