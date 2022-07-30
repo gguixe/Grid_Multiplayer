@@ -122,9 +122,9 @@ public class GridCombatSystem : MonoBehaviour
                 //GridPathfinding.GetMapWidth,GridPathfinding.GetMapHeight
                 
                 Debug.Log("VALOR X " + x);
-                Debug.Log("VALOR Y " + x);
+                Debug.Log("VALOR Y " + y);
 
-                if(x >= 0 && y >= 0) //&& y < gridPathfinding.GetMapWidth() && x < gridPathfinding.GetMapHeight() 
+                if(x >= 0 && x < gridPathfinding.GetMapWidth() && y >= 0 && y < gridPathfinding.GetMapHeight()) //Ignore when outside grid limits
                 { 
                     if (gridPathfinding.IsWalkable(x, y)) //gridPathfinding.IsWalkable(x, y)
                         {
