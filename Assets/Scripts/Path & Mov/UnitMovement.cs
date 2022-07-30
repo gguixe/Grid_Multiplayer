@@ -69,6 +69,7 @@ public class UnitMovement : MonoBehaviour
     {
         currentPathIndex = 0;
         pathVectorList = Pathfinding.Instance.FindPath(GetPosition(), targetPosition);
+        //List<PathNode> pathNodeList = GridPathfindingSystem.GridPathfinding.Instance.GetPath(GetPosition(), targetPosition);
 
         if (pathVectorList != null && pathVectorList.Count > 1)
         {

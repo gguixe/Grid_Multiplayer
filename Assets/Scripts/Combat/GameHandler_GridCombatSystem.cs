@@ -28,8 +28,10 @@ public class GameHandler_GridCombatSystem : MonoBehaviour
         float cellSize = 10f;
         Vector3 origin = new Vector3(0, 0);
 
+        //Create grid
         grid = new Grid<GridCombatSystem.GridObject>(mapWidth, mapHeight, cellSize, origin, (Grid<GridCombatSystem.GridObject> g, int x, int y) => new GridCombatSystem.GridObject(g, x, y));
 
+        //Create pathfinding grid
         gridPathfinding = new GridPathfinding(origin + new Vector3(1, 1) * cellSize * .5f, new Vector3(mapWidth, mapHeight) * cellSize, cellSize);
         gridPathfinding.SetAllWalkable(true);
         gridPathfinding.RaycastWalkable();
@@ -68,6 +70,11 @@ public class GameHandler_GridCombatSystem : MonoBehaviour
     private void Update()
     {
         HandleCameraMovement();
+    }
+
+    public GridPathfinding GetGridPathfinding()
+    {
+        return gridPathfinding;
     }
 
     private void HandleCameraMovement()

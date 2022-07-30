@@ -8,6 +8,7 @@ using CodeMonkey.Utils;
 public class UnitGridCombat : MonoBehaviour
 {
     [SerializeField] private Team team;
+    [SerializeField] private int maxMoveDistance = 3;
     private State state;
     private MovePositionPathfinding movePosition;
 
@@ -75,6 +76,11 @@ public class UnitGridCombat : MonoBehaviour
     public Team GetTeam()
     {
         return team;
+    }
+
+    public int GetmaxMoveDistance()
+    {
+        return maxMoveDistance;
     }
 
     public bool IsEnemy(UnitGridCombat unitGridCombat)

@@ -41,7 +41,7 @@ public class GridCombatSystem : MonoBehaviour
         //Set all Units on their grid position
         foreach (UnitGridCombat unitGridCombat in unitGridCombatArray)
         {
-            GameHandler_GridCombatSystem.Instance.GetGrid().GetGridObject(unitGridCombat.GetPosition()).SetUnitGridCombat(unitGridCombat);
+            GameHandler_GridCombatSystem.Instance.GetGrid().GetGridObject(unitGridCombat.GetPosition()).SetUnitGridCombat(unitGridCombat); //This only uses the "center" of the unit (not all the space they're occupying)
 
             if(unitGridCombat.GetTeam() == UnitGridCombat.Team.Blue)
             {
@@ -59,7 +59,10 @@ public class GridCombatSystem : MonoBehaviour
     //First time will pick blue team, then will go blue until all units moved, and then red until all units moved.
     private void SelectNextActiveUnit()
     {
-        if(unitGridCombat == null || unitGridCombat.GetTeam() == UnitGridCombat.Team.Red) 
+        //We want to repeat the walkable raycast after every unit has finished its movement (dynamic obstacles)
+        GameHandler_GridCombatSystem.Instance.GetGridPathfinding().RaycastWalkable();
+
+        if (unitGridCombat == null || unitGridCombat.GetTeam() == UnitGridCombat.Team.Red) 
         {
             unitGridCombat = GetNextActiveUnit(UnitGridCombat.Team.Blue);
         }
@@ -67,6 +70,10 @@ public class GridCombatSystem : MonoBehaviour
         {
             unitGridCombat = GetNextActiveUnit(UnitGridCombat.Team.Red);
         }
+
+        //Workaround for bug (we want to set the space of the unit walkable before selecting unit)
+        //Vector3 unitPos = unitGridCombat.GetPosition();
+        //GameHandler_GridCombatSystem.Instance.GetGridPathfinding().SetWalkable((int)unitPos.x, (int)unitPos.y, true);
 
         GameHandler_GridCombatSystem.Instance.SetCameraFollowPosition(unitGridCombat.GetPosition());
         canMoveThisTurn = true;
@@ -104,7 +111,7 @@ public class GridCombatSystem : MonoBehaviour
             }
         }
 
-        int maxMoveDistance = 3; //We want to limit the distance each unit can move
+        int maxMoveDistance = unitGridCombat.GetmaxMoveDistance(); //We want to limit the distance each unit can move
         for (int x=unitX - maxMoveDistance; x < unitX + maxMoveDistance; x++) 
         {
             for (int y = unitY - maxMoveDistance; y < unitY + maxMoveDistance; y++)
