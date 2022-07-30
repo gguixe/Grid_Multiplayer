@@ -95,6 +95,7 @@ public class GridCombatSystem : MonoBehaviour
 
     private void UpdateValidMovePosition()
     {
+        Debug.Log("//////////////////////////////////////////////START OF UPDATE");
         Grid<GridObject> grid = GameHandler_GridCombatSystem.Instance.GetGrid(); //We get combat grid
         grid.GetXY(unitGridCombat.GetPosition(), out int unitX, out int unitY); //We get unit position
         GridPathfindingSystem.GridPathfinding gridPathfinding = GameHandler_GridCombatSystem.Instance.gridPathfinding;
@@ -118,34 +119,45 @@ public class GridCombatSystem : MonoBehaviour
             {
                 //Debug.Log(gridPathfinding.IsWalkable(x, y));
                 //THIS IS ONLY WORKING WHEN WE ARE NOT ON THE EDGE OF THE GRID (BUG), IF THE UNIT HAS A BOX COLLIDER IT ALSO DOESN'T WORK
-                if (gridPathfinding.IsWalkable(x, y)) //gridPathfinding.IsWalkable(x, y)
-                {
-                    //Position is walkable
-                    if (gridPathfinding.HasPath(unitX, unitY, x , y))
-                    {
-                        //There is path
-                        if (gridPathfinding.GetPath(unitX, unitY, x, y).Count <= maxMoveDistance)
+                //GridPathfinding.GetMapWidth,GridPathfinding.GetMapHeight
+                
+                Debug.Log("VALOR X " + x);
+                Debug.Log("VALOR Y " + x);
+
+                if(x >= 0 && y >= 0) //&& y < gridPathfinding.GetMapWidth() && x < gridPathfinding.GetMapHeight() 
+                { 
+                    if (gridPathfinding.IsWalkable(x, y)) //gridPathfinding.IsWalkable(x, y)
                         {
-                            //Path within move distance
-                            //Set Tilemap to move
-                            GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetTilemapSprite(x, y, MovementTilemap.TilemapObject.TilemapSprite.Move);
-                            grid.GetGridObject(x, y).SetIsValidMovePosition(true);
-                        } else
-                        {
-                            //Path outside move distance
+                            //Position is walkable
+                            if (gridPathfinding.HasPath(unitX, unitY, x , y))
+                            {
+                                //There is path
+                                if (gridPathfinding.GetPath(unitX, unitY, x, y).Count <= maxMoveDistance)
+                                {
+                                    //Path within move distance
+                                    //Set Tilemap to move
+                                    GameHandler_GridCombatSystem.Instance.GetMovementTilemap().SetTilemapSprite(x, y, MovementTilemap.TilemapObject.TilemapSprite.Move);
+                                    grid.GetGridObject(x, y).SetIsValidMovePosition(true);
+                                } else
+                                {
+                                    //Path outside move distance
+                                }
+                            }
+                            else
+                            {
+                                //No valid path
+                            }
                         }
-                    }
-                    else
-                    {
-                        //No valid path
-                    }
-                }
-                else
-                {
-                    //Position is not walkable
+                        else
+                        {
+                            //Position is not walkable
+                        }
                 }
             }
         }
+        Debug.Log("MAXIMO MAPA HEIGHT " + gridPathfinding.GetMapHeight());
+        Debug.Log("MAXIMO MAPA WIDTH " + gridPathfinding.GetMapWidth());
+        Debug.Log("//////////////////////////////////////////////END OF UPDATE");
     }
 
     private void Update()
