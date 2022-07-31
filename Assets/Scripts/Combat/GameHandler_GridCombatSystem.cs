@@ -30,11 +30,12 @@ public class GameHandler_GridCombatSystem : MonoBehaviour
         float cellSize = 10f;
         Vector3 origin = new Vector3(0, 0);
 
-        //Create grid
+        //Create grid (game info grid)
         grid = new Grid<GridCombatSystem.GridObject>(mapWidth, mapHeight, cellSize, origin, (Grid<GridCombatSystem.GridObject> g, int x, int y) => new GridCombatSystem.GridObject(g, x, y));
 
         //Create pathfinding grid
-        gridPathfinding = new GridPathfinding(origin + new Vector3(1, 1) * cellSize * .5f, new Vector3(mapWidth, mapHeight) * cellSize, cellSize);
+        //gridPathfinding = new GridPathfinding(origin + new Vector3(1, 1) * cellSize * .5f, new Vector3(mapWidth, mapHeight) * cellSize, cellSize); THIS METHOD OF CREATING GRID IS WRONG OR SOMETHING
+        gridPathfinding = new GridPathfinding(mapWidth, mapHeight, cellSize, origin + new Vector3(1, 1) * cellSize * .5f);
         gridPathfinding.SetAllWalkable(true);
         gridPathfinding.RaycastWalkable();
         //gridPathfinding.PrintMap((Vector3 vec, Vector3 size, Color color) => World_Sprite.Create(vec, size, color));

@@ -72,6 +72,8 @@ namespace GridPathfindingSystem
 
         public GridPathfinding(int mapWidth, int mapHeight, float nodeSize, Vector3 worldOrigin)
         {//, Texture2D map) {
+            instance = this;
+
             this.nodeSize = nodeSize;
             this.worldOrigin = worldOrigin;
 
