@@ -23,8 +23,10 @@ public class GameHandler_GridCombatSystem : MonoBehaviour
     {
         Instance = this;
 
-        int mapWidth = 40;
-        int mapHeight = 25;
+        int mapWidth = 4;
+        int mapHeight = 4; //IF LESS THAN 7 WE'RE HAVING A BUG ?¿?¿?
+        //int mapWidth = 6;
+        //int mapHeight = 6;
         float cellSize = 10f;
         Vector3 origin = new Vector3(0, 0);
 
